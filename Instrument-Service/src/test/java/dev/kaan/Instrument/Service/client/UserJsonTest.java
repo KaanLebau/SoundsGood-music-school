@@ -20,7 +20,14 @@ public class UserJsonTest {
 
     @Test
     void clientSerializationTest() throws IOException {
-        Client client = new Client(1L, 12L,"John", LocalDate.of(2024,11,10), Role.STUDENT);
+        Client client = Client.builder()
+                .id(1L)
+                .createdDate(LocalDate.of(2024, 11, 10))
+                .updatedDate(LocalDate.of(2024, 11, 11))
+                .clientNo(12L)
+                .name("John")
+                .role(Role.STUDENT)
+                .build();
 
         assertThat(json.write(client)).isStrictlyEqualToJson("expectedClient.json");
         assertThat(json.write(client)).hasJsonPathNumberValue("@.id");
@@ -31,6 +38,8 @@ public class UserJsonTest {
         assertThat(json.write(client)).extractingJsonPathStringValue("@.name").isEqualTo("John");
         assertThat(json.write(client)).hasJsonPathValue("@.createdDate");
         assertThat(json.write(client)).extractingJsonPathStringValue("@.createdDate").isEqualTo("2024-11-10");
+        assertThat(json.write(client)).hasJsonPathValue("@.updatedDate");
+        assertThat(json.write(client)).extractingJsonPathStringValue("@.updatedDate").isEqualTo("2024-11-11");
         assertThat(json.write(client)).hasJsonPathStringValue("@.role");
         assertThat(json.write(client)).extractingJsonPathStringValue("@.role").isEqualTo("STUDENT");
 
@@ -40,20 +49,25 @@ public class UserJsonTest {
     void clientDeserializationTest() throws IOException {
         String expected = """
                 {
-                  "id": 1,
-                  "clientNo": 12,
-                  "name" : "John",
-                  "createdDate" : "2024-11-10",
-                  "role" : "STUDENT"
+             
+                    "id": 1,
+                    "clientNo": 12,
+                    "name": "John",
+                    "createdDate": "2024-11-10",
+                    "updatedDate": "2024-11-11",
+                    "role": "STUDENT"
                 }
                 """;
 
-        assertThat(json.parseObject(expected).id).isEqualTo(1);
+        assertThat(json.parseObject(expected).getId()).isEqualTo(1);
         assertThat(json.parseObject(expected).clientNo).isEqualTo(12);
         assertThat(json.parseObject(expected).name).isEqualTo("John");
-        assertThat(json.parseObject(expected).createdDate).isEqualTo("2024-11-10");
+        assertThat(json.parseObject(expected).getCreatedDate()).isEqualTo("2024-11-10");
+        assertThat(json.parseObject(expected).getUpdatedDate()).isEqualTo("2024-11-11");
         assertThat(json.parseObject(expected).role).isEqualTo(Role.STUDENT);
     }
+
+
 
 
 }

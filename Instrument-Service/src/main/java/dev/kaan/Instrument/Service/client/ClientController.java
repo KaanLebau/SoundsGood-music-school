@@ -12,9 +12,13 @@ import java.time.LocalDate;
 @RequestMapping("/clients")
 public class ClientController {
     
-    @GetMapping("/{id}")
-    private ResponseEntity<Client> findClientById(@PathVariable Long id){
-        Client client = new Client(1L, 12L,"John", LocalDate.of(2024,11,10), Role.STUDENT);
-        return ResponseEntity.ok(client);
-    } 
+    @GetMapping("/{requestedClientId}")
+    private ResponseEntity<Client> findClientById(@PathVariable Long requestedClientId){
+        if(requestedClientId.equals(1L)){
+            Client client = Client.builder().id(1L).clientNo(12L).name("Jhon").role(Role.STUDENT).createdDate(LocalDate.of(2024,11,10)).updatedDate(LocalDate.of(2024,11,11)).build();
+            return ResponseEntity.ok(client);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
