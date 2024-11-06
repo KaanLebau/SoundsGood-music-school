@@ -1,7 +1,8 @@
 package dev.kaan.Instrument.Service.client;
 
-import dev.kaan.Instrument.Service.client.Client;
-import dev.kaan.Instrument.Service.client.Role;
+import net.bytebuddy.asm.Advice;
+import org.assertj.core.util.Arrays;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
@@ -13,10 +14,31 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JsonTest
-public class UserJsonTest {
+public class ClientJsonTest {
 
     @Autowired
     private JacksonTester<Client> json;
+
+    @Autowired
+    private JacksonTester<Client[]> jsonList;
+    private Client[] clientList;
+
+    @BeforeEach
+    void setUp(){
+        clientList = Arrays.array(
+                Client.builder().id(0L).clientNo(0L).name("Admin").createdDate(LocalDate.of(2023, 10 ,10)).updatedDate(LocalDate.of(2023, 10,21)).role(Role.ADMIN).build(),
+                Client.builder().id(1L).clientNo(12L).name("Jhon").createdDate(LocalDate.of(2024,11,10)).updatedDate(LocalDate.of(2024,11,11)).role(Role.STUDENT).build(),
+                Client.builder().id(2L).clientNo(232L).name("Jane").createdDate(LocalDate.of(2024,9,10)).updatedDate(LocalDate.of(2024,9,11)).role(Role.STUDENT).build(),
+                Client.builder().id(3L).clientNo(1242L).name("Josh").createdDate(LocalDate.of(2024, 1,10)).updatedDate(LocalDate.of(2024,10,11)).role(Role.STUDENT).build(),
+                Client.builder().id(4L).clientNo(1215L).name("Ken").createdDate(LocalDate.of(2024, 2,10)).updatedDate(LocalDate.of(2024,07,11)).role(Role.STUDENT).build(),
+                Client.builder().id(5L).clientNo(13122L).name("Joleen").createdDate(LocalDate.of(2024,11,10)).updatedDate(LocalDate.of(2024,11,11)).role(Role.STUDENT).build(),
+                Client.builder().id(11L).clientNo(1312L).name("Galadreal").createdDate(LocalDate.of(2024,11,10)).updatedDate(LocalDate.of(2024,11,11)).role(Role.STUDENT).build(),
+                Client.builder().id(12L).clientNo(145112L).name("Sara").createdDate(LocalDate.of(2024,11,10)).updatedDate(LocalDate.of(2024,11,11)).role(Role.STUDENT).build(),
+                Client.builder().id(13L).clientNo(1551222L).name("Olof").createdDate(LocalDate.of(2024,11,10)).updatedDate(LocalDate.of(2024,11,11)).role(Role.STUDENT).build()
+        );
+    }
+
+
 
     @Test
     void clientSerializationTest() throws IOException {
@@ -45,6 +67,8 @@ public class UserJsonTest {
 
     }
 
+
+
     @Test
     void clientDeserializationTest() throws IOException {
         String expected = """
@@ -66,6 +90,8 @@ public class UserJsonTest {
         assertThat(json.parseObject(expected).getUpdatedDate()).isEqualTo("2024-11-11");
         assertThat(json.parseObject(expected).role).isEqualTo(Role.STUDENT);
     }
+
+
 
 
 

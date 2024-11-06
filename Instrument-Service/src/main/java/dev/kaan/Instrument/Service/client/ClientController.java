@@ -1,24 +1,41 @@
 package dev.kaan.Instrument.Service.client;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
+import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
-    
+    private final ClientService services;
+
+
+    public ClientController(ClientRepository repository) {
+
+        this.services = new ClientService(repository);
+    }
+
     @GetMapping("/{requestedClientId}")
     private ResponseEntity<Client> findClientById(@PathVariable Long requestedClientId){
-        if(requestedClientId.equals(1L)){
-            Client client = Client.builder().id(1L).clientNo(12L).name("Jhon").role(Role.STUDENT).createdDate(LocalDate.of(2024,11,10)).updatedDate(LocalDate.of(2024,11,11)).build();
-            return ResponseEntity.ok(client);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        Optional<Client> clientOptional = services.findByClientId(requestedClientId);
+        return clientOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/client-no={requestedClientNo}")
+    private ResponseEntity<Client> findClientByNo(@PathVariable Long requestedClientNo){
+        Optional<Client> clientOptional = services.findByClientNo(requestedClientNo);
+        return clientOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping()
+    private ResponseEntity<Void> createAClient(@RequestBody Client theClient, UriComponentsBuilder ucb){
+        Client createdClient = services.createAClient(theClient);
+        URI locationOfNewClient = ucb.path("/clients/{id}").buildAndExpand(createdClient.getId()).toUri();
+        return ResponseEntity.created(locationOfNewClient).build();
+    }
+
+
 }

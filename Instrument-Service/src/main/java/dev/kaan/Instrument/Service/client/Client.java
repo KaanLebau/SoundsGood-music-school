@@ -1,7 +1,9 @@
 package dev.kaan.Instrument.Service.client;
 
 import dev.kaan.Instrument.Service.util.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -13,8 +15,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Client extends BaseEntity {
 
+    @Column(name = "clientNo", nullable = false,updatable = false,unique = true)
     Long clientNo;
+    @Column(name = "name", nullable = false)
     String name;
+    @Column(name = "role", nullable = false)
     Role role;
 
     public static class Builder {

@@ -1,0 +1,11 @@
+[
+  {"id": 0, "clientNo": 0,          "name": "ADMIN",          "createdDate": "2023-10-10","updatedDate": "2023-10-21","role": "ADMIN"},
+  {"id": 1, "clientNo": 12,         "name": "John",           "createdDate": "2024-11-10","updatedDate": "2024-11-11","role": "STUDENT"},
+  {"id": 2, "clientNo": 232,        "name": "Jane",           "createdDate": "2024-09-10","updatedDate": "2024-09-11","role": "STUDENT"},
+  {"id": 3, "clientNo": 1242,       "name": "Josh",           "createdDate": "2024-01-10","updatedDate": "2024-10-11","role": "STUDENT"},
+  {"id": 4, "clientNo": 1215,       "name": "Ken",            "createdDate": "2024-02-10","updatedDate": "2024-07-11","role": "STUDENT"},
+  {"id": 5, "clientNo": 1312,       "name": "Joleen",         "createdDate": "2024-11-10","updatedDate": "2024-11-11","role": "STUDENT"},
+  {"id": 11, "clientNo": 1312,      "name": "Galadreal",      "createdDate": "2024-11-10","updatedDate": "2024-11-11","role": "STUDENT"},
+  {"id": 12, "clientNo": 145112,    "name": "Sara",           "createdDate": "2024-11-10","updatedDate": "2024-11-11","role": "PERSONAL"},
+  {"id": 13, "clientNo": 1551222,   "name": "Olof",           "createdDate": "2024-11-10","updatedDate": "2024-11-11","role": "PERSONAL"}
+]
